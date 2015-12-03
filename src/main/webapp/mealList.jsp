@@ -16,15 +16,19 @@
     <jsp:useBean id="mealList" type="java.util.List" scope="request"/>
     <table>
         <c:forEach var="meal" items="${mealList}">
-            <tr>
-                <td>${meal.getDescription()}</td>
-            </tr>
-            <tr>
-                <td>${meal.deteTime}</td>
-            </tr>
-            <tr>
-                <td>${meal.calories}</td>
-            </tr>
+            <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.UserMealWithExceed" scope="page"/>
+            <c:choose>
+                <c:when test="${meal.exceed == true}">
+                    <tr style="color: red">
+                </c:when>
+                <c:when test="${meal.exceed == false}">
+                    <tr style="color: green">
+                </c:when>
+            </c:choose>
+                    <td>${meal.description}</td>
+                    <td>${meal.dateTime}</td>
+                    <td>${meal.calories}</td>
+                </tr>
         </c:forEach>
     </table>
 </html>
