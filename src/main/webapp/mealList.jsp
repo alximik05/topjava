@@ -25,10 +25,16 @@
                     <tr style="color: green">
                 </c:when>
             </c:choose>
-                    <td>${meal.description}</td>
-                    <td>${meal.dateTime}</td>
-                    <td>${meal.calories}</td>
-                </tr>
+                        <td>${meal.description}</td>
+                        <td>${meal.dateTime}</td>
+                        <td>${meal.calories}</td>
+                    </tr>
         </c:forEach>
     </table>
+    <form method="post" action="meals">
+        <br> Описание <input type="text">
+        <br> Время <input type="datetime">
+        <br> Каллории <input type="text">
+        <br>  <input type="submit">
+    </form>
 </html>
