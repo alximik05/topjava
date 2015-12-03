@@ -32,9 +32,9 @@
         </c:forEach>
     </table>
     <form method="post" action="meals">
-        <br> Описание <input type="text">
-        <br> Время <input type="datetime">
-        <br> Каллории <input type="text">
+        <br> Описание <input name="description" type="text">
+        <br> Время <input name="dateTime" type="datetime-local">
+        <br> Каллории <input name="calories" type="text">
         <br>  <input type="submit">
     </form>
 </html>
