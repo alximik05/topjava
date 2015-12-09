@@ -7,15 +7,18 @@ import java.time.LocalDateTime;
  * 11.01.2015.
  */
 public class UserMealWithExceed {
-    protected final LocalDateTime dateTime;
+    protected int id;
 
-    protected final String description;
+    protected LocalDateTime dateTime;
 
-    protected final int calories;
+    protected String description;
 
-    protected final boolean exceed;
+    protected int calories;
 
-    public UserMealWithExceed(LocalDateTime dateTime, String description, int calories, boolean exceed) {
+    protected boolean exceed;
+
+    public UserMealWithExceed(int id,LocalDateTime dateTime, String description, int calories, boolean exceed) {
+        this.id = id;
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
@@ -36,6 +39,14 @@ public class UserMealWithExceed {
 
     public boolean isExceed() {
         return exceed;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
