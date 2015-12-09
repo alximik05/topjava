@@ -1,40 +1,41 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: USER
-  Date: 03.12.2015
-  Time: 14:33
-  To change this template use File | Settings | File Templates.
---%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="ru.javawebinar.topjava.util.TimeUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>Meals</title>
+    <title>Meal list</title>
+    <style>
+        .normal {color: green;}
+        .exceeded {color: red;}
+    </style>
 </head>
 <body>
-    <h1>Meals</h1>
-    <jsp:useBean id="mealList" type="java.util.List" scope="request"/>
-    <table>
-        <c:forEach var="meal" items="${mealList}">
-            <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.UserMealWithExceed" scope="page"/>
-            <c:choose>
-                <c:when test="${meal.exceed == true}">
-                    <tr style="color: red">
-                </c:when>
-                <c:when test="${meal.exceed == false}">
-                    <tr style="color: green">
-                </c:when>
-            </c:choose>
-                        <td>${meal.description}</td>
-                        <td>${meal.dateTime}</td>
-                        <td>${meal.calories}</td>
-                    </tr>
+<section>
+    <h2><a href="index.html">Home</a></h2>
+    <h3>Meal list</h3>
+    <hr>
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Calories</th>
+        </tr>
+        </thead>
+        <c:forEach items="${mealList}" var="meal">
+            <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.model.UserMealWithExceed"/>
+            <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
+                <td>
+                   <%--<fmt:parseDate value="${meal.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDate"/>--%>
+                   <%--<fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd HH:mm" />--%>
+                    <%=TimeUtil.toString(meal.getDateTime())%>
+                </td>
+                <td>${meal.description}</td>
+                <td>${meal.calories}</td>
+            </tr>
         </c:forEach>
     </table>
-    <form method="post" action="meals">
-        <br> Описание <input name="description" type="text">
-        <br> Время <input name="dateTime" type="datetime-local">
-        <br> Каллории <input name="calories" type="text">
-        <br>  <input type="submit">
-    </form>
+</section>
+</body>
 </html>
