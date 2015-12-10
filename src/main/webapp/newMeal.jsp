@@ -10,7 +10,7 @@
 <head>
 </head>
 <body>
-    <form action="/edit" method="post">
+    <form action="meals" method="post">
         <fieldset>
             <jsp:useBean id="meal" scope="request" type="ru.javawebinar.topjava.model.UserMeal"/>
             <input hidden type="text" name="id" value=${meal.id}>

@@ -15,7 +15,7 @@
     <h2><a href="index.html">Home</a></h2>
     <h3>Meal list</h3>
     <hr>
-    <a href="edit">Созать</a>
+    <a href="?action=new">Создать</a>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
