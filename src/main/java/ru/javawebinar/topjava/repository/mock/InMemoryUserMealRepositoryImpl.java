@@ -1,20 +1,26 @@
 package ru.javawebinar.topjava.repository.mock;
 
+import com.sun.org.apache.bcel.internal.generic.ALOAD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * GKislin
  * 15.09.2015.
  */
+@Repository
 public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     public static Logger LOG = LoggerFactory.getLogger(InMemoryUserMealRepositoryImpl.class);
     private Map<Integer, UserMeal> repository = new ConcurrentHashMap<>();
@@ -26,7 +32,7 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public UserMeal save(UserMeal userMeal) {
-        LOG.info("save " + userMeal);
+        LOG.info("from repository save {}" , userMeal);
         if (userMeal.isNew()) {
             userMeal.setId(counter.incrementAndGet());
         }
@@ -34,18 +40,22 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     }
 
     @Override
-    public void delete(int id) {
-        repository.remove(id);
+    public boolean delete(int mealId, int userId) {
+        LOG.info("from repository delete {}" + mealId);
+        return repository.remove(mealId) != null;
     }
 
     @Override
-    public UserMeal get(int id) {
-        return repository.get(id);
+    public UserMeal get(int mealId, int userId) {
+        LOG.info("from repository get {}" + mealId);
+        return repository.get(mealId);
     }
 
     @Override
-    public Collection<UserMeal> getAll() {
-        return repository.values();
+    public Collection<UserMeal> getAll(int userId) {
+        LOG.info("from repository getAll");
+        Collection<UserMeal> result = repository.values().stream().filter(meal -> meal.getUserId() == userId).collect(Collectors.toCollection(ArrayList::new));
+        return result;
     }
 }
 

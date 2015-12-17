@@ -12,7 +12,10 @@
 </head>
 <body>
 <form action="meals">
-    <input type="checkbox" name="logged" />Log in
+    <select name="userId">
+        <option value="1">user1</option>
+        <option value="2">user2</option>
+    </select>
     <input type="submit">
 </form>
 </body>
