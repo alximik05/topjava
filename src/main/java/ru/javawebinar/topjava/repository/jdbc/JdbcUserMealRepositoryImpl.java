@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -13,17 +14,15 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.TimeUtil;
-import ru.javawebinar.topjava.util.UserMealRowMapper;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 /**
  * User: gkislin
  * Date: 26.08.2014
@@ -33,7 +32,7 @@ import java.util.stream.Collectors;
 public class JdbcUserMealRepositoryImpl implements UserMealRepository {
     private static Logger LOG = LoggerFactory.getLogger(JdbcUserMealRepositoryImpl.class);
 
-    private static UserMealRowMapper ROW_MAPPER = new UserMealRowMapper();
+    private UserMealRowMapper ROW_MAPPER = new UserMealRowMapper();
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -111,5 +110,16 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
 //        return getAll(userId).stream()
 //                .filter(um -> TimeUtil.isBetween(um.getDateTime(), startDate, endDate))
 //                .collect(Collectors.toList());
+    }
+
+    public class UserMealRowMapper implements RowMapper {
+        @Override
+        public UserMeal mapRow(ResultSet rs, int rowNum) throws SQLException {
+            int id = rs.getInt("id");
+            LocalDateTime dateTime = rs.getTimestamp("dateTime").toLocalDateTime();
+            String desc = rs.getString("description");
+            int calories = rs.getInt("calories");
+            return new UserMeal(id, dateTime, desc, calories);
+        }
     }
 }
