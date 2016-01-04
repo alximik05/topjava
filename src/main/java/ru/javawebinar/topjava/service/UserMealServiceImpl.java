@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import javax.persistence.PersistenceException;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -21,7 +23,12 @@ public class UserMealServiceImpl implements UserMealService {
 
     @Override
     public UserMeal get(int id, int userId) {
-        return ExceptionUtil.check(repository.get(id, userId), id);
+        try {
+            return ExceptionUtil.check(repository.get(id, userId), id);
+        } catch (PersistenceException excep) {
+            throw new NotFoundException(excep.getMessage());
+        }
+
     }
 
     @Override
@@ -41,7 +48,12 @@ public class UserMealServiceImpl implements UserMealService {
 
     @Override
     public UserMeal update(UserMeal meal, int userId) {
-        return ExceptionUtil.check(repository.save(meal, userId), meal.getId());
+        try {
+            return ExceptionUtil.check(repository.save(meal, userId), meal.getId());
+        } catch (PersistenceException ex) {
+            throw new NotFoundException(ex.getMessage());
+        }
+
     }
 
     @Override

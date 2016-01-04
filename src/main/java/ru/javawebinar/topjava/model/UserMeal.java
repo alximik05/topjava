@@ -1,22 +1,28 @@
 package ru.javawebinar.topjava.model;
 
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
  * GKislin
  * 11.01.2015.
  */
+@Entity
+@Table(name = "meals")
 public class UserMeal extends BaseEntity {
 
+    @Column(name = "date_time")
     protected LocalDateTime dateTime;
 
+    @Column(name = "description")
     protected String description;
 
+    @Column(name = "calories")
     protected int calories;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public UserMeal(LocalDateTime dateTime, String description, int calories) {
@@ -28,6 +34,9 @@ public class UserMeal extends BaseEntity {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
+    }
+
+    public UserMeal() {
     }
 
     public void setId(int id) {
@@ -60,6 +69,15 @@ public class UserMeal extends BaseEntity {
 
     public void setCalories(int calories) {
         this.calories = calories;
+    }
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
